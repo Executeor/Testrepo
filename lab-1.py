@@ -25,7 +25,9 @@ def initDatabase():
     cur = conn.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS person (id INTEGER PRIMARY KEY, name VARCHAR(100), age INTEGER)")
     conn.commit()
-
+def send_text(roomID,text):
+    r = requests.post(CONST_MESSAGE_URL,headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN},data={'roomId': roomID, 'text': text})
+    return True
 app = Flask(__name__)
 @app.route("/api/requests", methods = ['POST'])
 def handle_ask():
@@ -36,7 +38,13 @@ def handle_ask():
     r = requests.get(CONST_MESSAGE_URL + "/" + id, headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN})
     message = r.json()["text"]
     print(message)
+    message_array = message.split(" ")
+    if message_array[1] == "Hello":
+        roomID = r.json()["roomId"]
+        send_text(roomID,text)
     return jsonify(message)
+
+
 def index():
     return app.send_static_file('index.html')
 @app.route("/api/bot")
