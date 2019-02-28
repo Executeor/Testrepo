@@ -1,1 +1,1 @@
-web: gunicorn Testrepo:app
+web: gunicorn lab4-heroku:app
