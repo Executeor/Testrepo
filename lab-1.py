@@ -40,14 +40,31 @@ def handle_ask():
     message_text = r.json()["text"]
     print(message_text)
     message_array = message_text.split(" ")
-    if message_text == "Hello" and message["data"]["personId"] != CONST_BOT_ID:
+    if message_text.lower() == "hello" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,"Szia!")
         return jsonify(message)
-    elif message["data"]["personId"] != CONST_BOT_ID and message_array[1] == "Hello":
+    elif message_array[1].lower() == "us" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
-        send_text(roomID,"Szia!")
+        send_text(roomID,"Roland botja vagyok")
         return jsonify(message)
+    elif message_array[1].lower() == "help" and message["data"]["personId"] != CONST_BOT_ID:
+        roomID = r.json()["roomId"]
+        send_text(roomID,"->hello\n->us\n->help")
+
+    elif len(message_array) > 1:
+        if message_array[1].lower() == "hello":
+            roomID = r.json()["roomId"]
+            send_text(roomID,"Szia!")
+            return jsonify(message)
+        elif message_array[1].lower() == "us":
+            roomID = r.json()["roomId"]
+            send_text(roomID,"Roland botja vagyok")
+            return jsonify(message)
+        elif message_array[1].lower() == "help":
+            roomID = r.json()["roomId"]
+            send_text(roomID,"->hello\n->us\n->help")
+            return jsonify(message)
     return jsonify(message)
 
 
