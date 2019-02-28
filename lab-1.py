@@ -6,7 +6,7 @@ static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)),'stat
 
 CONST_BOT_ID = "Y2lzY29zcGFyazovL3VzL0FQUExJQ0FUSU9OL2QzYzlmYmFmLTUxNTQtNGFhMC1hMjAxLTdlOTYyMWU5MTYwOQ"
 CONST_BOT_ACCESS_TOKEN = "ZTMyYmRjNzEtMWNhNC00NmEwLTkyZjEtMDQ1ZjMwOTdhYTVlNTFkOTgzOTItYmM3_PF84_consumer"
-
+CONST_MESSAGE_URL "https://api.ciscospark.com/v1/messages"
 name = "Móré Roland"
 age = "16"
 def push(name, age):
@@ -33,6 +33,9 @@ def handle_ask():
     print(message)
     id = message["data"]["id"]
     print(id)
+    r = requests.get(CONST_MESSAGE_URL + "/" + id, headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN})
+    message = r.json()["text"]
+    print(message)
     return jsonify(message)
 def index():
     return app.send_static_file('index.html')
