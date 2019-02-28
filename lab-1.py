@@ -51,7 +51,7 @@ def handle_ask():
     elif message_text.lower() == "help" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,"->hello\n->us\n->help")
-
+#
     elif len(message_array) > 1:
         if message_array[1].lower() == "hello":
             roomID = r.json()["roomId"]
