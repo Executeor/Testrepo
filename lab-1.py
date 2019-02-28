@@ -42,7 +42,7 @@ def handle_ask():
     message_array = message.split(" ")
     if message_array[1] == "Hello":
         roomID = r.json()["roomId"]
-        send_text(roomID,text)
+        send_text(roomID,"Szia!")
     return jsonify(message)
 
 
