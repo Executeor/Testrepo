@@ -43,11 +43,11 @@ def handle_ask():
     if message == "Hello" and message["id"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,"Szia!")
-        return True
+        return jsonify(message)
     elif message_array[1] == "Hello":
         roomID = r.json()["roomId"]
         send_text(roomID,"Szia!")
-        return True
+        return jsonify(message)
     return jsonify(message)
 
 
