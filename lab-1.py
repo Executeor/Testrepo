@@ -1,6 +1,7 @@
-from flask import send_from_directory,Flask, jsonify, requests
+from flask import send_from_directory,Flask, jsonify, request
 import sqlite3
 import os
+import requests
 
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)),'static')
 
