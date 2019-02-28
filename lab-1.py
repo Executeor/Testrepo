@@ -44,11 +44,11 @@ def handle_ask():
         roomID = r.json()["roomId"]
         send_text(roomID,"Szia!")
         return jsonify(message)
-    elif message_array[1].lower() == "us" and message["data"]["personId"] != CONST_BOT_ID:
+    elif message_text.lower() == "us" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,"Roland botja vagyok")
         return jsonify(message)
-    elif message_array[1].lower() == "help" and message["data"]["personId"] != CONST_BOT_ID:
+    elif message_text.lower() == "help" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,"->hello\n->us\n->help")
 
