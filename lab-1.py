@@ -27,7 +27,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return app.send_static_file('index.html')
-
+#Main
 @app.route('/<path:path>', methods=['GET'])
 def static_page(path):
     return send_from_directory(static_file_dir,path)
