@@ -39,7 +39,7 @@ def handle_ask():
     r = requests.get(CONST_MESSAGE_URL + "/" + id, headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN})
     message_text = r.json()["text"]
     print(message_text)
-    message_array = message.split(" ")
+    message_array = message_text.split(" ")
     if message_text == "Hello" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,"Szia!")
