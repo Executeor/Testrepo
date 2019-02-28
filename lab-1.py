@@ -27,10 +27,16 @@ def initDatabase():
     conn.commit()
 
 app = Flask(__name__)
-@app.route("/")
+@app.route("/api/requests", methods = ['POST'])
+def handle_ask():
+    message = request.json
+    print(message)
+    id = message["data"]["id"]
+    print(id)
+    return jsonify(message)
 def index():
     return app.send_static_file('index.html')
-#Main
+@app.route("/api/bot")
 @app.route('/<path:path>', methods=['GET'])
 def static_page(path):
     return send_from_directory(static_file_dir,path)
