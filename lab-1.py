@@ -4,6 +4,9 @@ import os
 
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)),'static')
 
+CONST_BOT_ID = "Y2lzY29zcGFyazovL3VzL0FQUExJQ0FUSU9OL2QzYzlmYmFmLTUxNTQtNGFhMC1hMjAxLTdlOTYyMWU5MTYwOQ"
+CONST_BOT_ACCESS_TOKEN = "ZTMyYmRjNzEtMWNhNC00NmEwLTkyZjEtMDQ1ZjMwOTdhYTVlNTFkOTgzOTItYmM3_PF84_consumer"
+
 name = "Móré Roland"
 age = "16"
 def push(name, age):
