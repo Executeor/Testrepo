@@ -26,9 +26,12 @@ def push(name, age):
         sql = f"INSERT INTO person (name, age) VALUES ('{name}', {age});"
         cur.execute(sql)
         conn.commit()
-def insert_team(name,teamid):
+def insert_team(name):
+    r = requests.post("https://api.ciscospark.com/v1/teams",headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN},data={'name': name})
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
+        name = r.json()["text"]["name"]
+        teamid=r.json()["text"]["id"]
         sql = f"INSERT INTO teams (name, teamid) VALUES ('{name}', {teamid});"
         cur.execute(sql)
         conn.commit()
@@ -68,8 +71,15 @@ def handle_ask():
         roomID = r.json()["roomId"]
         send_text(roomID,"->hello\n->us\n->help")
     elif message_text.lower() == "teams" and message["data"]["personId"] != CONST_BOT_ID:
-        roomID = r.json()["roomId"]
-        send_text(roomID,return_team())
+        if message_array[1] == "show":
+            roomID = r.json()["roomId"]
+            send_text(roomID,return_team())
+        elif message_array[1] == "create":
+            roomID = r.json()["roomId"]
+            send_text(roomID,insert_team(message_array[2]))
+
+
+
     elif len(message_array) > 1:
         if message_array[1].lower() == "hello":
             roomID = r.json()["roomId"]
@@ -84,8 +94,12 @@ def handle_ask():
             send_text(roomID,"->hello\n->us\n->help")
             return jsonify(message)
         elif message_array[1].lower() == "teams":
-            roomID = r.json()["roomId"]
-            send_text(roomID,return_team())
+            if message_array[2] == "show":
+                roomID = r.json()["roomId"]
+                send_text(roomID,return_team())
+            elif message_array[2] == "create":
+                roomID = r.json()["roomId"]
+                send_text(roomID,insert_team(message_array[3]))
             return jsonify(message)
     return jsonify(message)
 def index():
