@@ -11,16 +11,15 @@ CONST_MESSAGE_URL = "https://api.ciscospark.com/v1/messages"
 name = "Móré Roland"
 age = "16"
 def init_Database():
-    conn = sqlite3.connect('about.db')
-    cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS person (id INTEGER PRIMARY KEY, name VARCHAR(100), age INTEGER)")
-    conn.commit()
+    #conn = sqlite3.connect('about.db')
+    #cur = conn.cursor()
+    #cur.execute("CREATE TABLE IF NOT EXISTS person (id INTEGER PRIMARY KEY, name VARCHAR(100), age INTEGER)")
+    #conn.commit()
 
     conn = sqlite3.connect('about.db')
     cur = conn.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name VARCHAR(100), teamid VARCHAR(100))")
     conn.commit()
-    
 def push(name, age):
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
@@ -71,7 +70,6 @@ def handle_ask():
     elif message_text.lower() == "teams" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,return_team())
-#
     elif len(message_array) > 1:
         if message_array[1].lower() == "hello":
             roomID = r.json()["roomId"]
@@ -90,8 +88,6 @@ def handle_ask():
             send_text(roomID,return_team())
             return jsonify(message)
     return jsonify(message)
-
-
 def index():
     return app.send_static_file('index.html')
 @app.route("/api/bot")
@@ -112,6 +108,6 @@ def about():
 def hello():
     return "Hello World!"
 push("Charles Webex",15)
+init_Database()
 if __name__ == "__main__":
-    init_Database()
     app.run()
