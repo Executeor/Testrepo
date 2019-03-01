@@ -10,22 +10,39 @@ CONST_BOT_ACCESS_TOKEN = "ZTMyYmRjNzEtMWNhNC00NmEwLTkyZjEtMDQ1ZjMwOTdhYTVlNTFkOT
 CONST_MESSAGE_URL = "https://api.ciscospark.com/v1/messages"
 name = "Móré Roland"
 age = "16"
+def init_Database():
+    conn = sqlite3.connect('about.db')
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS person (id INTEGER PRIMARY KEY, name VARCHAR(100), age INTEGER)")
+    conn.commit()
+
+    conn = sqlite3.connect('about.db')
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name VARCHAR(100), teamid VARCHAR(100))")
+    conn.commit()
+    
 def push(name, age):
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
         sql = f"INSERT INTO person (name, age) VALUES ('{name}', {age});"
         cur.execute(sql)
         conn.commit()
+def insert_team(name,teamid):
+    with sqlite3.connect('about.db') as conn:
+        cur = conn.cursor()
+        sql = f"INSERT INTO teams (name, teamid) VALUES ('{name}', {teamid});"
+        cur.execute(sql)
+        conn.commit()
+def return_team():
+    with sqlite3.connect('about.db') as conn:
+        cur = conn.cursor()
+        result = cur.execute("SELECT * FROM teams ORDER BY id DESC;").fetchone()
+        return str(jsonify(id = result[0], name = result[1], teamid = result[2]))
 def fetch():
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
         result = cur.execute("SELECT * FROM person ORDER BY id DESC;").fetchone()
         return jsonify(id = result[0], name = result[1], age = result[2])
-def initDatabase():
-    conn = sqlite3.connect('about.db')
-    cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS person (id INTEGER PRIMARY KEY, name VARCHAR(100), age INTEGER)")
-    conn.commit()
 def send_text(roomID,text):
     r = requests.post(CONST_MESSAGE_URL,headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN},data={'roomId': roomID, 'text': text})
     return True
@@ -51,6 +68,9 @@ def handle_ask():
     elif message_text.lower() == "help" and message["data"]["personId"] != CONST_BOT_ID:
         roomID = r.json()["roomId"]
         send_text(roomID,"->hello\n->us\n->help")
+    elif message_text.lower() == "teams" and message["data"]["personId"] != CONST_BOT_ID:
+        roomID = r.json()["roomId"]
+        send_text(roomID,return_team())
 #
     elif len(message_array) > 1:
         if message_array[1].lower() == "hello":
@@ -64,6 +84,10 @@ def handle_ask():
         elif message_array[1].lower() == "help":
             roomID = r.json()["roomId"]
             send_text(roomID,"->hello\n->us\n->help")
+            return jsonify(message)
+        elif message_array[1].lower() == "teams":
+            roomID = r.json()["roomId"]
+            send_text(roomID,return_team())
             return jsonify(message)
     return jsonify(message)
 
@@ -87,7 +111,7 @@ def about():
 @app.route("/api/helloworld")
 def hello():
     return "Hello World!"
-initDatabase()
 push("Charles Webex",15)
 if __name__ == "__main__":
+    init_Database()
     app.run()
