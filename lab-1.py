@@ -38,7 +38,7 @@ def insert_team(name):
 def return_team():
     r = requests.get("https://api.ciscospark.com/v1/teams", headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN})
     answer = ""
-    for item in r["items"]:
+    for item in r.json()["items"]:
         answer += item["name"] + "\n"
     
     with sqlite3.connect('about.db') as conn:
