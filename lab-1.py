@@ -43,8 +43,9 @@ def return_team():
     
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
-        result = cur.execute("SELECT * FROM teams ORDER BY id DESC;").fetchone()
-        return str(jsonify(id = result[0], name = result[1], teamid = result[2])) + answer
+        #result = cur.execute("SELECT * FROM teams ORDER BY id DESC;").fetchone()
+        return answer
+        #return str(jsonify(id = result[0], name = result[1], teamid = result[2])) + answer
 def fetch():
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
