@@ -13,12 +13,12 @@ age = "16"
 def init_Database():
     #conn = sqlite3.connect('about.db')
     #cur = conn.cursor()
-    #cur.execute("CREATE TABLE IF NOT EXISTS person (id INTEGER PRIMARY KEY, name VARCHAR(100), age INTEGER)")
+    #cur.execute("CREATE TABLE IF NOT EXISTS person (id INTEGER PRIMARY KEY, name VARCHAR(100), age INTEGER);")
     #conn.commit()
 
     conn = sqlite3.connect('about.db')
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS teams (id INTEGER PRIMARY KEY, name VARCHAR(100), teamid VARCHAR(100))")
+    cur.execute("CREATE TABLE IF NOT EXISTS teams (id INT PRIMARY KEY, name VARCHAR(100), teamid VARCHAR(100));")
     conn.commit()
 def push(name, age):
     with sqlite3.connect('about.db') as conn:
