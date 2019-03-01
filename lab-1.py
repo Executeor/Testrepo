@@ -40,7 +40,7 @@ def return_team():
     answer = ""
     for item in r.json()["items"]:
         answer += item["name"] + "\n"
-    
+#
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
         #result = cur.execute("SELECT * FROM teams ORDER BY id DESC;").fetchone()
