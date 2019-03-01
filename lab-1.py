@@ -36,10 +36,15 @@ def insert_team(name):
         cur.execute(sql)
         conn.commit()
 def return_team():
+    r = requests.get("https://api.ciscospark.com/v1/teams", headers={'Authorization': 'Bearer ' + CONST_BOT_ACCESS_TOKEN})
+    answer = ""
+    for item in r["items"]:
+        answer += item["name"] + "\n"
+    
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
         result = cur.execute("SELECT * FROM teams ORDER BY id DESC;").fetchone()
-        return str(jsonify(id = result[0], name = result[1], teamid = result[2]))
+        return str(jsonify(id = result[0], name = result[1], teamid = result[2])) + answer
 def fetch():
     with sqlite3.connect('about.db') as conn:
         cur = conn.cursor()
